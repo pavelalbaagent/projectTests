@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#03060d" />
+  <title>Quantum Sandbox</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <canvas id="universe" aria-label="Animated particle universe"></canvas>
+
+    <header class="topbar hud-panel">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <div>
+          <p class="eyebrow">EXPERIMENTAL SYSTEM</p>
+          <h1>QUANTUM SANDBOX</h1>
+        </div>
+      </div>
+      <div class="top-meta">
+        <span>TYPE</span>
+        <span>/</span>
+        <span>EXPLORE</span>
+        <span>/</span>
+        <span>DISCOVER</span>
+      </div>
+    </header>
+
+    <aside class="control-panel hud-panel">
+      <div class="panel-section">
+        <div class="section-heading">
+          <span class="status-dot"></span>
+          <span>CORE ENGINE</span>
+        </div>
+        <p class="mono-line">&gt; INITIALIZING PARTICLE FIELD</p>
+        <p class="mono-line dim">&gt; ORBITAL MODEL: ACTIVE</p>
+        <p class="mono-line dim">&gt; VISUAL MODE: CINEMATIC</p>
+      </div>
+
+      <div class="panel-divider"></div>
+
+      <div class="panel-section">
+        <div class="section-heading">PARAMETERS</div>
+
+        <label class="readout">
+          <span><span>ENERGY</span><strong>42</strong></span>
+          <div class="meter"><i style="width: 56%"></i></div>
+        </label>
+
+        <label class="readout">
+          <span><span>MASS</span><strong>900</strong></span>
+          <div class="meter"><i style="width: 74%"></i></div>
+        </label>
+
+        <label class="readout">
+          <span><span>ENTROPY</span><strong>1.5</strong></span>
+          <div class="meter"><i style="width: 34%"></i></div>
+        </label>
+
+        <label class="readout">
+          <span><span>GRAVITY</span><strong>0.6</strong></span>
+          <div class="meter"><i style="width: 48%"></i></div>
+        </label>
+      </div>
+    </aside>
+
+    <div class="system-readout hud-panel">
+      <div class="signal-line" aria-hidden="true"></div>
+      <div>
+        <p class="eyebrow">SYSTEM STATUS</p>
+        <p class="system-state">EVOLVING<span class="pulse">...</span></p>
+      </div>
+    </div>
+
+    <div class="telemetry hud-panel">
+      <div>
+        <span class="eyebrow">PARTICLES</span>
+        <strong id="particleCount">0000</strong>
+      </div>
+      <div>
+        <span class="eyebrow">FPS</span>
+        <strong id="fpsValue">00</strong>
+      </div>
+      <div>
+        <span class="eyebrow">CORE</span>
+        <strong>STABLE</strong>
+      </div>
+    </div>
+
+    <div class="palette hud-panel">
+      <span class="eyebrow">COLOR PALETTE</span>
+      <div class="palette-dots" aria-hidden="true">
+        <span class="dot dot-blue"></span>
+        <span class="dot dot-purple"></span>
+        <span class="dot dot-cyan"></span>
+        <span class="dot dot-magenta"></span>
+        <span class="dot dot-gold"></span>
+      </div>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
