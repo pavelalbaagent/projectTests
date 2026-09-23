@@ -1,11 +1,11 @@
 const canvas = document.getElementById("universe");
-const ctx = canvas.getContext("2d");
+const ctx = canvas.getContext("2d", { alpha: false });
 
 const particleCountEl = document.getElementById("particleCount");
 const fpsValueEl = document.getElementById("fpsValue");
 
-const DPR_LIMIT = 2;
-const PARTICLE_COUNT = 1800;
+const DPR_LIMIT = 1.5;
+const PARTICLE_COUNT = 800;
 const TAU = Math.PI * 2;
 
 let width = 0;
@@ -40,6 +40,7 @@ function resizeCanvas() {
   canvas.style.height = height + "px";
 
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.imageSmoothingEnabled = false;
 
   centerX = width * 0.59;
   centerY = height * 0.53;
@@ -136,9 +137,9 @@ function drawOrbitGuide(radius, alpha = 0.14) {
 function drawCore(time) {
   const pulse = 1 + Math.sin(time * 0.0021) * 0.06;
 
-  for (let i = 4; i >= 0; i -= 1) {
-    const radius = (24 + i * 22) * pulse;
-    const alpha = 0.075 - i * 0.009;
+  for (let i = 2; i >= 0; i -= 1) {
+    const radius = (24 + i * 28) * pulse;
+    const alpha = 0.075 - i * 0.015;
 
     const glow = ctx.createRadialGradient(
       centerX,
@@ -150,7 +151,7 @@ function drawCore(time) {
     );
 
     glow.addColorStop(0, "rgba(255, 157, 92, " + alpha + ")");
-    glow.addColorStop(0.25, "rgba(255, 87, 208, " + alpha * 0.7 + ")");
+    glow.addColorStop(0.28, "rgba(255, 87, 208, " + alpha * 0.7 + ")");
     glow.addColorStop(1, "rgba(90, 130, 255, 0)");
 
     ctx.fillStyle = glow;
@@ -161,9 +162,9 @@ function drawCore(time) {
 
   ctx.beginPath();
   ctx.arc(centerX, centerY, 15 * pulse, 0, TAU);
-  ctx.fillStyle = "rgba(255, 227, 202, 0.9)";
-  ctx.shadowColor = "rgba(255, 159, 99, 0.9)";
-  ctx.shadowBlur = 24;
+  ctx.fillStyle = "rgba(255, 227, 202, 0.92)";
+  ctx.shadowColor = "rgba(255, 159, 99, 0.85)";
+  ctx.shadowBlur = 18;
   ctx.fill();
   ctx.shadowBlur = 0;
 }
@@ -184,14 +185,12 @@ function drawParticle(particle, time) {
     Math.sin(angle * 2.3) * 4;
 
   const [r, g, b] = particle.color;
-  const alpha = particle.alpha * (0.75 + 0.25 * Math.sin(time * 0.0013 + particle.wobble));
+  const alpha =
+    particle.alpha *
+    (0.75 + 0.25 * Math.sin(time * 0.0013 + particle.wobble));
 
   ctx.fillStyle = "rgba(" + r + "," + g + "," + b + "," + alpha + ")";
-  ctx.shadowColor = "rgba(" + r + "," + g + "," + b + "," + alpha + ")";
-  ctx.shadowBlur = particle.size * 3.5;
-  ctx.beginPath();
-  ctx.arc(x, y, particle.size, 0, TAU);
-  ctx.fill();
+  ctx.fillRect(x, y, particle.size, particle.size);
 }
 
 function drawBody(body, time) {
@@ -204,9 +203,9 @@ function drawBody(body, time) {
 
   ctx.beginPath();
   ctx.arc(x, y, body.size * pulse, 0, TAU);
-  ctx.fillStyle = "rgba(" + r + "," + g + "," + b + ",0.85)";
+  ctx.fillStyle = "rgba(" + r + "," + g + "," + b + ",0.88)";
   ctx.shadowColor = "rgba(" + r + "," + g + "," + b + ",0.9)";
-  ctx.shadowBlur = body.size * 4;
+  ctx.shadowBlur = body.size * 3;
   ctx.fill();
   ctx.shadowBlur = 0;
 }
@@ -216,7 +215,10 @@ function updateAndDraw(time, delta) {
 
   for (const particle of particles) {
     particle.angle += particle.speed * normalizedDelta;
-    particle.radius += Math.sin(time * 0.00024 + particle.wobble) * 0.006 * normalizedDelta;
+    particle.radius +=
+      Math.sin(time * 0.00024 + particle.wobble) *
+      0.006 *
+      normalizedDelta;
 
     if (particle.radius > maxRadius) {
       particle.radius = maxRadius * (0.16 + Math.random() * 0.68);
