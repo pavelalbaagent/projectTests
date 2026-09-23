@@ -15,20 +15,20 @@ This plan breaks the MVP into small, resumable milestones.
 ## Phase 0 — Repository & Skeleton
 
 ### 0.1 Create the page structure
-- [ ] Create `index.html`
-- [ ] Create `style.css`
-- [ ] Create `app.js`
-- [ ] Link CSS and JS correctly
-- [ ] Add a minimal page title
+- [x] Create `index.html`
+- [x] Create `style.css`
+- [x] Create `app.js`
+- [x] Link CSS and JS correctly
+- [x] Add a minimal page title
 
 **Done when:** opening `index.html` shows the basic page with no console errors.
 
 ### 0.2 Create the visual shell
-- [ ] Full viewport dark background
-- [ ] Fullscreen canvas
-- [ ] Basic HUD/header area
-- [ ] Basic left control panel container
-- [ ] Basic bottom/system status area
+- [x] Full viewport dark background
+- [x] Fullscreen canvas
+- [x] Basic HUD/header area
+- [x] Basic left control panel container
+- [x] Basic bottom/system status area
 
 **Done when:** the page already resembles the rough structure of the concept image, even before the simulation exists.
 
@@ -37,25 +37,26 @@ This plan breaks the MVP into small, resumable milestones.
 ## Phase 1 — Particle Engine
 
 ### 1.1 Canvas setup
-- [ ] Create and size the canvas to the viewport
-- [ ] Handle browser resize
-- [ ] Create the animation loop
+- [x] Create and size the canvas to the viewport
+- [x] Handle browser resize
+- [x] Create the animation loop
 
 **Done when:** the canvas renders continuously without errors.
 
 ### 1.2 Basic particles
-- [ ] Create a particle data structure
-- [ ] Spawn an initial particle field
-- [ ] Give particles position, velocity, size, brightness, and color
-- [ ] Draw particles with a soft glow
+- [x] Create a particle data structure
+- [x] Spawn an initial particle field
+- [x] Give particles position, velocity, size, brightness, and color
+- [x] Draw particles with a soft glow
 
 **Done when:** a living field of particles is visible and moving.
 
 ### 1.3 Central system
-- [ ] Add a central energy/core point
-- [ ] Add attraction toward the core
-- [ ] Add orbital/tangential velocity
-- [ ] Keep particles from collapsing into a single point
+- [x] Add a central energy/core point
+- [x] Add an orbital/tangential motion model
+- [x] Keep particles distributed across a stable orbital field
+
+**Note:** the first pass uses a visually controlled orbital model rather than full physical gravity. Actual gravity/attraction becomes parameterized in Phase 2.
 
 **Done when:** the simulation looks like a dynamic orbital system rather than random dots.
 
@@ -277,6 +278,6 @@ Only start these after the MVP is complete:
 
 # Current Progress
 
-**Current milestone:** Phase 0.1 — Create the page structure
+**Current milestone:** Phase 2.1 — Simulation state
 
-**Next action:** Build the initial HTML/CSS/JS skeleton and verify that the page runs cleanly.
+**Next action:** Introduce the shared simulation state for Energy, Mass, Entropy, and Gravity before wiring the controls.
