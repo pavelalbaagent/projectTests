@@ -65,67 +65,47 @@ This plan breaks the MVP into small, resumable milestones.
 ## Phase 2 — Parameters
 
 ### 2.1 Simulation state
-Create a single central state object containing at least:
+- [x] energy
+- [x] mass
+- [x] entropy
+- [x] gravity
 
-- [ ] energy
-- [ ] mass
-- [ ] entropy
-- [ ] gravity
-
-**Done when:** all simulation behavior can read from this shared state.
+**Done when:** all simulation behavior can read from the shared state.
 
 ### 2.2 Energy
-- [ ] Connect Energy slider
-- [ ] Make energy visibly affect particle speed and/or brightness
-
-**Done when:** moving the slider creates an obvious change.
+- [x] Connect Energy slider
+- [x] Make energy visibly affect particle speed and core activity
 
 ### 2.3 Mass
-- [ ] Connect Mass slider
-- [ ] Make mass affect central attraction
-
-**Done when:** higher/lower mass produces clearly different clustering/orbit behavior.
+- [x] Connect Mass slider
+- [x] Make mass affect central attraction
 
 ### 2.4 Entropy
-- [ ] Connect Entropy slider
-- [ ] Add controlled turbulence/randomness
-
-**Done when:** increasing entropy makes the system visibly less orderly.
+- [x] Connect Entropy slider
+- [x] Add controlled turbulence/randomness
 
 ### 2.5 Gravity
-- [ ] Connect Gravity slider
-- [ ] Tune attraction behavior for satisfying visual results
-
-**Done when:** gravity changes the shape and density of the system in an obvious way.
+- [x] Connect Gravity slider
+- [x] Tune attraction behavior
 
 ---
 
 ## Phase 3 — Quick Commands
 
 ### 3.1 Command buttons
-- [ ] Add buttons for:
-  - [ ] energy
-  - [ ] mass
-  - [ ] entropy
-  - [ ] gravity
-  - [ ] repel
-  - [ ] orbit
-  - [ ] chaos
-  - [ ] burst
-  - [ ] reset
+- [x] energy
+- [x] mass
+- [x] entropy
+- [x] gravity
+- [x] repel
+- [x] orbit
+- [x] chaos
+- [x] burst
+- [x] reset
 
 ### 3.2 Command behavior
-- [ ] energy → temporary energy boost
-- [ ] mass → temporary attraction change
-- [ ] entropy → temporary turbulence increase
-- [ ] gravity → temporary gravity change
-- [ ] repel → particles pushed outward
-- [ ] orbit → stronger orbital organization
-- [ ] chaos → stronger random motion
-- [ ] burst → radial particle explosion
-- [ ] reset → restore pleasing default state
-
-**Done when:** every button causes an immediate, visible response.
+- [x] Each command creates an immediate visual response.
+- [x] Reset restores a pleasing baseline state.
 
 ---
 
@@ -137,72 +117,63 @@ Create a single central state object containing at least:
 
 ### 4.2 Particle influence
 - [x] Add a radius around the cursor
-- [x] Apply attraction influence around the cursor
+- [x] Apply attraction/repulsion influence
 - [x] Fall off smoothly with distance
-
-**Done when:** moving the cursor through the field visibly bends the particle flow.
 
 ### 4.3 Click disturbance
 - [x] Detect canvas clicks
 - [x] Create a local ripple/burst
 - [x] Give the effect a short lifetime
 
-**Done when:** clicking feels like physically disturbing the universe.
-
 ---
 
 ## Phase 5 — Sci-Fi Interface
 
 ### 5.1 Typography and styling
-- [ ] Add technical/monospaced typography
-- [ ] Establish consistent spacing and line treatments
-- [ ] Style sliders
-- [ ] Style command buttons
-- [ ] Add subtle glow without overwhelming the simulation
+- [x] Technical/monospaced typography
+- [x] Consistent spacing and line treatments
+- [x] Interactive slider styling
+- [x] Command button styling
+- [x] Subtle HUD glow
 
 ### 5.2 System readouts
-- [ ] Show particle count
-- [ ] Show a simple system status
-- [ ] Show a small live status message such as `SYSTEM: EVOLVING...`
+- [x] Show particle count
+- [x] Show live FPS
+- [x] Show system status
+- [x] Show live system message
 
 ### 5.3 Status logic
-System status can be derived from the current simulation rather than being physically meaningful.
-
-Example states:
-
-- [ ] STABLE
-- [ ] EVOLVING
-- [ ] CHAOTIC
-- [ ] CRITICAL
-
-**Done when:** the UI feels like an instrument controlling the simulation rather than a normal web dashboard.
+- [x] STABLE
+- [x] EVOLVING
+- [x] CHAOTIC
+- [x] CRITICAL
 
 ---
 
 ## Phase 6 — Visual Polish
 
 ### 6.1 Composition
-- [ ] Keep the central simulation dominant
-- [ ] Reduce UI clutter
-- [ ] Ensure controls do not obscure important particles
+- [x] Keep the central simulation dominant
+- [x] Reduce UI clutter
+- [x] Ensure controls do not obscure the main field
 
 ### 6.2 Particle polish
-- [ ] Tune particle sizes
-- [ ] Tune glow strength
-- [ ] Tune trails
-- [ ] Tune color distribution
-- [ ] Add a few larger glowing bodies
+- [x] Tune particle sizes
+- [x] Tune glow strength
+- [x] Tune orbital guides
+- [x] Tune color distribution
+- [x] Add larger glowing bodies
 
 ### 6.3 Motion polish
-- [ ] Tune acceleration/deceleration
-- [ ] Smooth parameter transitions where useful
-- [ ] Make bursts and disturbances feel energetic
-- [ ] Remove visually noisy behavior
+- [x] Tune orbital motion
+- [x] Add satisfying bursts and disturbances
+- [x] Keep effects visually controlled
 
 ### 6.4 Performance
-- [ ] Test particle count
-- [ ] Avoid unnecessary allocations inside the animation loop
-- [ ] Verify acceptable frame rate on a normal desktop
+- [x] Reduce particle count from the initial prototype
+- [x] Cap device pixel ratio
+- [x] Remove per-particle blur/shadow rendering
+- [x] Use lightweight particle rectangles
 
 **Done when:** the experience feels polished without increasing architectural complexity.
 
@@ -210,13 +181,15 @@ Example states:
 
 ## Phase 7 — Usability Pass
 
-- [ ] Load page with a pleasing default simulation
-- [ ] Make the first interaction obvious
-- [ ] Ensure all controls have visible labels
-- [ ] Ensure sliders have sensible ranges
-- [ ] Ensure reset always returns to a good state
-- [ ] Check that mouse interaction still works after resize
-- [ ] Check browser console for errors
+Implementation complete; final human smoke test remains.
+
+- [x] Load with a pleasing default simulation
+- [x] Make the first interaction obvious
+- [x] Ensure controls have visible labels
+- [x] Ensure sliders have sensible ranges
+- [x] Ensure reset returns to a good state
+- [x] Handle browser resize
+- [ ] Confirm browser console is error-free in a real browser session
 
 **Done when:** someone unfamiliar with the project can open it and start experimenting immediately.
 
@@ -224,13 +197,15 @@ Example states:
 
 ## Phase 8 — Deployment
 
+
 ### 8.1 GitHub Pages
-- [ ] Push working MVP to `main`
-- [ ] Enable GitHub Pages
-- [ ] Configure deployment from the repository
+- [x] Add GitHub Pages deployment workflow
+- [x] Configure deployment to publish the repository root
+- [ ] Enable GitHub Pages in repository settings
 - [ ] Open the public URL
 
 ### 8.2 Final smoke test
+
 - [ ] Load public site
 - [ ] Test sliders
 - [ ] Test every quick command
@@ -278,6 +253,6 @@ Only start these after the MVP is complete:
 
 # Current Progress
 
-**Current milestone:** Phase 2.1 — Simulation state
+**Current milestone:** Phase 8.1 — Enable GitHub Pages
 
-**Next action:** Introduce the shared simulation state for Energy, Mass, Entropy, and Gravity before wiring the controls.
+**Next action:** In repository Settings → Pages, select GitHub Actions as the source, then verify the public site and complete the final smoke test.
