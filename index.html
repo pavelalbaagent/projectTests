@@ -9,7 +9,7 @@
 </head>
 <body>
   <main class="app-shell">
-    <canvas id="universe" aria-label="Animated particle universe"></canvas>
+    <canvas id="universe" aria-label="Interactive Quantum Sandbox particle universe"></canvas>
 
     <header class="topbar hud-panel">
       <div class="brand">
@@ -19,58 +19,74 @@
           <h1>QUANTUM SANDBOX</h1>
         </div>
       </div>
-      <div class="top-meta">
-        <span>TYPE</span>
-        <span>/</span>
-        <span>EXPLORE</span>
-        <span>/</span>
-        <span>DISCOVER</span>
+      <div class="top-meta" aria-hidden="true">
+        <span>TYPE</span><span>/</span><span>EXPLORE</span><span>/</span><span>DISCOVER</span>
       </div>
     </header>
 
     <aside class="control-panel hud-panel">
-      <div class="panel-section">
+      <section class="panel-section">
         <div class="section-heading">
           <span class="status-dot"></span>
           <span>CORE ENGINE</span>
         </div>
-        <p class="mono-line">&gt; INITIALIZING PARTICLE FIELD</p>
+        <p class="mono-line">&gt; PARTICLE FIELD: ONLINE</p>
         <p class="mono-line dim">&gt; ORBITAL MODEL: ACTIVE</p>
-        <p class="mono-line dim">&gt; VISUAL MODE: CINEMATIC</p>
-      </div>
+        <p class="mono-line dim">&gt; INPUT CHANNEL: READY</p>
+      </section>
 
       <div class="panel-divider"></div>
 
-      <div class="panel-section">
+      <section class="panel-section">
         <div class="section-heading">PARAMETERS</div>
 
-        <label class="readout">
-          <span><span>ENERGY</span><strong>42</strong></span>
-          <div class="meter"><i style="width: 56%"></i></div>
+        <label class="slider-row">
+          <span><span>ENERGY</span><strong id="energyValue">42</strong></span>
+          <input id="energy" type="range" min="0" max="100" value="42" />
         </label>
 
-        <label class="readout">
-          <span><span>MASS</span><strong>900</strong></span>
-          <div class="meter"><i style="width: 74%"></i></div>
+        <label class="slider-row">
+          <span><span>MASS</span><strong id="massValue">900</strong></span>
+          <input id="mass" type="range" min="100" max="1200" value="900" />
         </label>
 
-        <label class="readout">
-          <span><span>ENTROPY</span><strong>1.5</strong></span>
-          <div class="meter"><i style="width: 34%"></i></div>
+        <label class="slider-row">
+          <span><span>ENTROPY</span><strong id="entropyValue">1.5</strong></span>
+          <input id="entropy" type="range" min="0" max="5" step="0.1" value="1.5" />
         </label>
 
-        <label class="readout">
-          <span><span>GRAVITY</span><strong>0.6</strong></span>
-          <div class="meter"><i style="width: 48%"></i></div>
+        <label class="slider-row">
+          <span><span>GRAVITY</span><strong id="gravityValue">0.6</strong></span>
+          <input id="gravity" type="range" min="0" max="1.5" step="0.1" value="0.6" />
         </label>
-      </div>
+      </section>
+
+      <div class="panel-divider"></div>
+
+      <section class="panel-section">
+        <div class="section-heading">QUICK COMMANDS</div>
+        <div class="command-grid">
+          <button type="button" data-command="energy">ENERGY</button>
+          <button type="button" data-command="mass">MASS</button>
+          <button type="button" data-command="entropy">ENTROPY</button>
+          <button type="button" data-command="gravity">GRAVITY</button>
+          <button type="button" data-command="repel">REPEL</button>
+          <button type="button" data-command="orbit">ORBIT</button>
+          <button type="button" data-command="chaos">CHAOS</button>
+          <button type="button" data-command="burst">BURST</button>
+          <button type="button" class="command-wide" data-command="reset">RESET SYSTEM</button>
+        </div>
+      </section>
+
+      <p class="hint">MOVE YOUR CURSOR THROUGH THE FIELD · CLICK TO DISRUPT</p>
     </aside>
 
     <div class="system-readout hud-panel">
       <div class="signal-line" aria-hidden="true"></div>
       <div>
         <p class="eyebrow">SYSTEM STATUS</p>
-        <p class="system-state">EVOLVING<span class="pulse">...</span></p>
+        <p id="systemState" class="system-state">EVOLVING<span class="pulse">...</span></p>
+        <p id="systemMessage" class="system-message">Awaiting intervention.</p>
       </div>
     </div>
 
@@ -85,8 +101,13 @@
       </div>
       <div>
         <span class="eyebrow">CORE</span>
-        <strong>STABLE</strong>
+        <strong id="coreValue">STABLE</strong>
       </div>
+    </div>
+
+    <div class="interaction-badge hud-panel" id="interactionBadge">
+      <span class="badge-dot"></span>
+      <span>CURSOR FIELD ACTIVE</span>
     </div>
 
     <div class="palette hud-panel">
