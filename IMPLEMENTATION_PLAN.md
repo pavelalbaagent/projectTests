@@ -132,20 +132,20 @@ Create a single central state object containing at least:
 ## Phase 4 — Mouse Interaction
 
 ### 4.1 Cursor tracking
-- [ ] Track mouse position
-- [ ] Convert coordinates correctly for the canvas
+- [x] Track mouse position
+- [x] Convert coordinates correctly for the canvas
 
 ### 4.2 Particle influence
-- [ ] Add a radius around the cursor
-- [ ] Apply attraction or repulsion based on interaction mode
-- [ ] Fall off smoothly with distance
+- [x] Add a radius around the cursor
+- [x] Apply attraction influence around the cursor
+- [x] Fall off smoothly with distance
 
 **Done when:** moving the cursor through the field visibly bends the particle flow.
 
 ### 4.3 Click disturbance
-- [ ] Detect canvas clicks
-- [ ] Create a local ripple/burst
-- [ ] Give the effect a short lifetime
+- [x] Detect canvas clicks
+- [x] Create a local ripple/burst
+- [x] Give the effect a short lifetime
 
 **Done when:** clicking feels like physically disturbing the universe.
 
