@@ -19,6 +19,13 @@ let fps = 60;
 
 const particles = [];
 const bodies = [];
+const bursts = [];
+
+const pointer = {
+  x: 0,
+  y: 0,
+  active: false
+};
 
 const palette = [
   [82, 142, 255],
@@ -86,6 +93,7 @@ function createBody(index) {
 function seedUniverse() {
   particles.length = 0;
   bodies.length = 0;
+  bursts.length = 0;
 
   for (let i = 0; i < PARTICLE_COUNT; i += 1) {
     particles.push(createParticle());
@@ -169,28 +177,35 @@ function drawCore(time) {
   ctx.shadowBlur = 0;
 }
 
-function drawParticle(particle, time) {
-  const wobble = Math.sin(time * particle.wobbleSpeed + particle.wobble);
-  const currentRadius = particle.radius + wobble * 3.5;
+function particlePosition(particle, time) {
+  const wobble = Math.sin(
+    time * particle.wobbleSpeed + particle.wobble
+  );
+  const radius = particle.radius + wobble * 3.5;
   const angle = particle.angle + wobble * particle.drift;
 
-  const x =
-    centerX +
-    Math.cos(angle) * currentRadius +
-    Math.cos(angle * 3.1) * 5;
+  return {
+    x:
+      centerX +
+      Math.cos(angle) * radius +
+      Math.cos(angle * 3.1) * 5,
+    y:
+      centerY +
+      Math.sin(angle) * radius * particle.eccentricity +
+      Math.sin(angle * 2.3) * 4
+  };
+}
 
-  const y =
-    centerY +
-    Math.sin(angle) * currentRadius * particle.eccentricity +
-    Math.sin(angle * 2.3) * 4;
-
+function drawParticle(particle, time) {
+  const position = particlePosition(particle, time);
   const [r, g, b] = particle.color;
   const alpha =
     particle.alpha *
     (0.75 + 0.25 * Math.sin(time * 0.0013 + particle.wobble));
 
-  ctx.fillStyle = "rgba(" + r + "," + g + "," + b + "," + alpha + ")";
-  ctx.fillRect(x, y, particle.size, particle.size);
+  ctx.fillStyle =
+    "rgba(" + r + "," + g + "," + b + "," + alpha + ")";
+  ctx.fillRect(position.x, position.y, particle.size, particle.size);
 }
 
 function drawBody(body, time) {
@@ -203,11 +218,25 @@ function drawBody(body, time) {
 
   ctx.beginPath();
   ctx.arc(x, y, body.size * pulse, 0, TAU);
-  ctx.fillStyle = "rgba(" + r + "," + g + "," + b + ",0.88)";
+  ctx.fillStyle = "rgba(" + r + "," + g + "," + b + ",0.85)";
   ctx.shadowColor = "rgba(" + r + "," + g + "," + b + ",0.9)";
-  ctx.shadowBlur = body.size * 3;
+  ctx.shadowBlur = body.size * 4;
   ctx.fill();
   ctx.shadowBlur = 0;
+}
+
+function spawnBurst(x, y) {
+  bursts.push({
+    x,
+    y,
+    life: 1,
+    strength: 18,
+    radius: 26
+  });
+
+  if (bursts.length > 4) {
+    bursts.shift();
+  }
 }
 
 function updateAndDraw(time, delta) {
@@ -220,13 +249,77 @@ function updateAndDraw(time, delta) {
       0.006 *
       normalizedDelta;
 
+    const position = particlePosition(particle, time);
+
+    if (pointer.active) {
+      const dx = pointer.x - position.x;
+      const dy = pointer.y - position.y;
+      const distance = Math.hypot(dx, dy);
+      const range = 180;
+
+      if (distance < range) {
+        const force =
+          (1 - distance / range) *
+          0.018 *
+          normalizedDelta;
+
+        particle.radius += force;
+        particle.angle +=
+          ((dx * Math.sin(particle.angle) -
+            dy * Math.cos(particle.angle)) /
+            (distance * range + 0.001)) *
+          force *
+          2;
+      }
+    }
+
+    for (const burst of bursts) {
+      const dx = position.x - burst.x;
+      const dy = position.y - burst.y;
+      const distance = Math.hypot(dx, dy);
+      const range = burst.radius + 130;
+
+      if (distance < range) {
+        const force =
+          (1 - distance / range) *
+          burst.strength *
+          normalizedDelta *
+          0.001;
+
+        particle.radius += force;
+
+        if (distance > 1) {
+          particle.angle +=
+            ((dx * Math.sin(particle.angle) -
+              dy * Math.cos(particle.angle)) /
+              (distance + 1)) *
+            force;
+        }
+      }
+    }
+
     if (particle.radius > maxRadius) {
       particle.radius = maxRadius * (0.16 + Math.random() * 0.68);
+    }
+
+    if (particle.radius < 8) {
+      particle.radius = 8;
     }
   }
 
   for (const body of bodies) {
     body.angle += body.speed * normalizedDelta;
+  }
+
+  for (const burst of bursts) {
+    burst.radius += 9 * normalizedDelta;
+    burst.life -= 0.018 * normalizedDelta;
+  }
+
+  for (let i = bursts.length - 1; i >= 0; i -= 1) {
+    if (bursts[i].life <= 0) {
+      bursts.splice(i, 1);
+    }
   }
 
   for (const particle of particles) {
@@ -236,14 +329,28 @@ function updateAndDraw(time, delta) {
   for (const body of bodies) {
     drawBody(body, time);
   }
+
+  for (const burst of bursts) {
+    ctx.beginPath();
+    ctx.arc(burst.x, burst.y, burst.radius, 0, TAU);
+    ctx.strokeStyle =
+      "rgba(116, 207, 255, " + burst.life * 0.2 + ")";
+    ctx.lineWidth = 1.2;
+    ctx.stroke();
+  }
 }
 
 function render(time) {
   const delta = time - lastTime;
   lastTime = time;
 
-  fps = fps * 0.92 + (1000 / Math.max(delta, 1)) * 0.08;
-  fpsValueEl.textContent = Math.round(fps).toString().padStart(2, "0");
+  fps =
+    fps * 0.92 +
+    (1000 / Math.max(delta, 1)) * 0.08;
+
+  fpsValueEl.textContent = Math.round(fps)
+    .toString()
+    .padStart(2, "0");
 
   drawBackdrop();
 
@@ -255,7 +362,6 @@ function render(time) {
 
   ctx.shadowBlur = 0;
   updateAndDraw(time, delta);
-
   drawCore(time);
 
   ctx.globalCompositeOperation = "source-over";
@@ -269,5 +375,25 @@ function init() {
   requestAnimationFrame(render);
 }
 
+canvas.addEventListener("pointermove", (event) => {
+  const rect = canvas.getBoundingClientRect();
+  pointer.x = event.clientX - rect.left;
+  pointer.y = event.clientY - rect.top;
+  pointer.active = true;
+});
+
+canvas.addEventListener("pointerleave", () => {
+  pointer.active = false;
+});
+
+canvas.addEventListener("pointerdown", (event) => {
+  const rect = canvas.getBoundingClientRect();
+  spawnBurst(
+    event.clientX - rect.left,
+    event.clientY - rect.top
+  );
+});
+
 window.addEventListener("resize", resizeCanvas);
+
 init();
